@@ -1,0 +1,22 @@
+# YOLO Wine Bottle Detector Dependencies
+
+# Core YOLO library (includes YOLOv8, YOLOv9, YOLO11)
+ultralytics>=8.0.0
+
+# Image processing
+opencv-python>=4.8.0
+Pillow>=10.0.0
+
+# Visualization
+matplotlib>=3.7.0
+
+# Data handling
+numpy>=1.24.0
+pandas>=2.0.0
+
+# Optional: GPU acceleration (if you have CUDA)
+# torch>=2.0.0  # Will be installed automatically by ultralytics
+
+# Development tools (optional)
+# jupyter>=1.0.0
+# ipython>=8.0.0

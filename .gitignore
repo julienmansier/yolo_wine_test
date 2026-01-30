@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+
+# YOLO models (large files)
+*.pt
+*.pth
+*.onnx
+*.engine
+
+# Data
+sample_images/
+test_images/
+results/
+runs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Output
+output/
+*.jpg
+*.png
+*.mp4
+!examples/*.jpg
+!examples/*.png
+
+# Logs
+*.log
+
