@@ -47,3 +47,9 @@ output/
 # Logs
 *.log
 
+!batch_results/*.jpg
+!batch_results/*.jpeg
+!batch_results/*.png
+!sample_images/*.jpg
+!sample_images/*.jpeg
+!sample_images/*.png
