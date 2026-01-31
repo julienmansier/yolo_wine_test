@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+.claude/
+
+# Git
+.git/
+.gitignore
+
+# Documentation
+README.md
+NOTES.md
+USAGE.md
+
+# Examples and samples
+examples/
+sample_images/
+batch_results/
+
+# Outputs
+output_*.jpg
+runs/
+*.jpg
+*.jpeg
+*.png
+
+# Large model files (uncomment to exclude specific models)
+# yolo26l.pt
+# yolo26x.pt

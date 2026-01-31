@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  wine-detection-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: wine-bottle-api
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      # Optional: Mount models directory if you want to change models without rebuilding
+      - ./yolo26n.pt:/app/yolo26n.pt:ro
+      - ./yolo26s.pt:/app/yolo26s.pt:ro
+      - ./yolo26m.pt:/app/yolo26m.pt:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
