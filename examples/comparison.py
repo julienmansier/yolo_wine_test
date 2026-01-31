@@ -16,10 +16,10 @@ from pathlib import Path
 import time
 import matplotlib.pyplot as plt
 
-# Add parent directory to path to import utils
+# Add parent directory to path to import src
 sys.path.append(str(Path(__file__).parent.parent))
 
-from utils.detector import WineBottleDetector
+from src.utils.detector import WineBottleDetector
 
 
 def compare_models(image_path: str, models: list):
@@ -144,10 +144,10 @@ def main():
 
     # Models to compare (from latest to previous generations)
     models_to_test = [
-        'yolo26n.pt',  # Latest nano - 43% faster CPU, NMS-free
-        'yolo26s.pt',  # Latest small - balanced performance
-        'yolo11n.pt',  # Previous generation nano
-        'yolov8n.pt',  # Mature, well-documented
+        'models/yolo26n.pt',  # Latest nano - 43% faster CPU, NMS-free
+        'models/yolo26s.pt',  # Latest small - balanced performance
+        'models/yolo11n.pt',  # Previous generation nano
+        'models/yolov8n.pt',  # Mature, well-documented
     ]
 
     print("Models to compare:")

@@ -24,10 +24,10 @@ Examples:
 import sys
 from pathlib import Path
 
-# Add parent directory to path to import utils
+# Add parent directory to path to import src
 sys.path.append(str(Path(__file__).parent.parent))
 
-from utils.detector import WineBottleDetector
+from src.utils.detector import WineBottleDetector
 
 
 def main():
@@ -83,11 +83,11 @@ def main():
 
     # Model mapping
     model_names = {
-        'n': 'yolo26n.pt',  # Nano - fastest, smallest
-        's': 'yolo26s.pt',  # Small - balanced
-        'm': 'yolo26m.pt',  # Medium - better accuracy
-        'l': 'yolo26l.pt',  # Large - high accuracy
-        'x': 'yolo26x.pt',  # Extra-large - best accuracy
+        'n': 'models/yolo26n.pt',  # Nano - fastest, smallest
+        's': 'models/yolo26s.pt',  # Small - balanced
+        'm': 'models/yolo26m.pt',  # Medium - better accuracy
+        'l': 'models/yolo26l.pt',  # Large - high accuracy
+        'x': 'models/yolo26x.pt',  # Extra-large - best accuracy
     }
     model_name = model_names[model_size]
 

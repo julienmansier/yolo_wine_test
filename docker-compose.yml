@@ -12,9 +12,7 @@ services:
       - PYTHONUNBUFFERED=1
     volumes:
       # Optional: Mount models directory if you want to change models without rebuilding
-      - ./yolo26n.pt:/app/yolo26n.pt:ro
-      - ./yolo26s.pt:/app/yolo26s.pt:ro
-      - ./yolo26m.pt:/app/yolo26m.pt:ro
+      - ./models:/app/models:ro
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]

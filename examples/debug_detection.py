@@ -32,7 +32,7 @@ def main():
     print("=" * 70)
 
     # Load model
-    model = YOLO('yolo26n.pt')
+    model = YOLO('models/yolo26n.pt')
 
     # Run detection
     results = model(image_path, conf=0.25)

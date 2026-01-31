@@ -53,7 +53,7 @@ pip install -r requirements.txt
 from ultralytics import YOLO
 
 # Load pre-trained model (using latest YOLO26)
-model = YOLO('yolo26n.pt')  # nano model for speed
+model = YOLO('models/yolo26n.pt')  # nano model for speed
 
 # Detect bottles in an image
 results = model('wine_bottles.jpg')
@@ -70,12 +70,24 @@ yolo-wine-bottle-detector/
 ├── README.md
 ├── requirements.txt
 ├── .gitignore
-├── examples/
-│   ├── simple_detection.py      # Basic bottle detection
-│   ├── batch_processing.py      # Process multiple images
-│   └── comparison.py            # Compare different YOLO models
-├── utils/
-│   └── detector.py              # Reusable detection utilities
+├── models/                      # YOLO model weights (.pt files)
+│   ├── yolo26n.pt
+│   ├── yolo26s.pt
+│   └── yolo26m.pt
+├── src/                         # Source code
+│   ├── api.py                   # FastAPI web service
+│   ├── test_api.py             # API testing script
+│   └── utils/
+│       └── detector.py         # Reusable detection utilities
+├── examples/                    # Example scripts
+│   ├── simple_detection.py     # Basic bottle detection
+│   ├── batch_processing.py     # Process multiple images
+│   ├── comparison.py           # Compare different YOLO models
+│   └── debug_detection.py      # Debug detection output
+├── docs/                        # Documentation
+│   ├── API_DOCUMENTATION.md
+│   ├── USAGE.md
+│   └── NOTES.md
 └── sample_images/               # Test images (not in repo)
 ```
 

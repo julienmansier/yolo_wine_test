@@ -28,14 +28,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 FROM base AS app
 
 # Copy application code
-COPY api.py .
-COPY utils/ ./utils/
+COPY src/ ./src/
 
 # Copy YOLO model weights (at least nano model)
 # You can add more models if needed
-COPY yolo26n.pt .
-COPY yolo26s.pt* ./
-COPY yolo26m.pt* ./
+COPY models/ ./models/
 
 # Create temp directory for API processing
 RUN mkdir -p /tmp/wine_bottle_api
@@ -48,4 +45,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:8000/health || exit 1
 
 # Run the API
-CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "src.api:app", "--host", "0.0.0.0", "--port", "8000"]

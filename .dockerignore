@@ -22,8 +22,7 @@ ENV/
 
 # Documentation
 README.md
-NOTES.md
-USAGE.md
+docs/
 
 # Examples and samples
 examples/
@@ -38,5 +37,5 @@ runs/
 *.png
 
 # Large model files (uncomment to exclude specific models)
-# yolo26l.pt
-# yolo26x.pt
+# models/yolo26l.pt
+# models/yolo26x.pt
