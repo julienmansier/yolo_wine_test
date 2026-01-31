@@ -36,6 +36,28 @@ Wine bottles are often classified as **"vases" (COCO class 75)** rather than "bo
 - Models download automatically on first run (~5.3 MB for nano model)
 - No GPU required for good performance
 
+### Model Size Impact on Accuracy
+
+Testing on `shelf_horizontal_close.jpg` with `--conf 0.20`:
+
+| Model | Bottles Detected | Inference Speed | Model Size | Improvement |
+|-------|------------------|-----------------|------------|-------------|
+| YOLO26n (nano) | 21 bottles | ~24ms | ~5 MB | Baseline |
+| YOLO26s (small) | 31 bottles | ~35ms | ~12 MB | +48% |
+| YOLO26m (medium) | 32 bottles | ~71ms | ~42 MB | +52% |
+
+**Key Findings:**
+- **Nano model**: Best for simple scenes (1-5 bottles), fastest
+- **Medium model**: **Recommended for dense/crowded shelves** - detects 50%+ more bottles
+- **Trade-off**: 3x slower (71ms vs 24ms) but still very fast on CPU
+- **GPU impact**: None on accuracy - only affects speed, not detection count
+
+**When to use larger models:**
+- Dense scenes with many overlapping bottles
+- Partial occlusions (bottles behind bottles)
+- Small/distant bottles
+- When accuracy is more important than speed
+
 ## CLI Usage Tips
 
 All example scripts now support command-line arguments:

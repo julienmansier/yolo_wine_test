@@ -3,6 +3,18 @@ Batch Wine Bottle Detection Example
 
 This script demonstrates how to process multiple images at once
 and export results to CSV for further analysis.
+
+Usage:
+    python batch_processing.py <directory> [--model MODEL] [--conf THRESHOLD]
+
+Arguments:
+    directory: Path to directory containing images (optional, will prompt if not provided)
+    --model MODEL: YOLO model to use (n/s/m/l/x, default: n for nano)
+    --conf THRESHOLD: Confidence threshold (0-1, default: 0.25)
+
+Examples:
+    python batch_processing.py sample_images/
+    python batch_processing.py sample_images/ --model m --conf 0.20
 """
 
 import sys
@@ -44,12 +56,55 @@ def main():
 
     print(f"Found {len(image_paths)} images to process\n")
 
+    # Check for --model flag
+    model_size = 'n'  # default: nano
+    if '--model' in sys.argv:
+        try:
+            model_index = sys.argv.index('--model')
+            if model_index + 1 < len(sys.argv):
+                model_size = sys.argv[model_index + 1].lower()
+                if model_size not in ['n', 's', 'm', 'l', 'x']:
+                    print("Error: Model must be one of: n (nano), s (small), m (medium), l (large), x (extra-large)")
+                    return 1
+        except (ValueError, IndexError):
+            print("Error: Invalid model size. Use: --model n/s/m/l/x")
+            return 1
+
+    # Check for --conf flag
+    confidence_threshold = 0.25
+    if '--conf' in sys.argv:
+        try:
+            conf_index = sys.argv.index('--conf')
+            if conf_index + 1 < len(sys.argv):
+                confidence_threshold = float(sys.argv[conf_index + 1])
+                if not 0 < confidence_threshold <= 1:
+                    print("Error: Confidence threshold must be between 0 and 1")
+                    return 1
+        except (ValueError, IndexError):
+            print("Error: Invalid confidence threshold. Use: --conf 0.25")
+            return 1
+
+    # Model mapping
+    model_names = {
+        'n': 'yolo26n.pt',  # Nano - fastest, smallest
+        's': 'yolo26s.pt',  # Small - balanced
+        'm': 'yolo26m.pt',  # Medium - better accuracy
+        'l': 'yolo26l.pt',  # Large - high accuracy
+        'x': 'yolo26x.pt',  # Extra-large - best accuracy
+    }
+    model_name = model_names[model_size]
+
     # Initialize detector
-    print("Loading YOLO model...")
+    print(f"Loading YOLO model ({model_name})...")
     detector = WineBottleDetector(
-        model_name='yolo26n.pt',
-        confidence_threshold=0.25
+        model_name=model_name,
+        confidence_threshold=confidence_threshold
     )
+
+    if model_size != 'n':
+        print(f"Note: Using YOLO26{model_size.upper()} model for better accuracy")
+    if confidence_threshold != 0.25:
+        print(f"Note: Using custom confidence threshold: {confidence_threshold}")
 
     # Create output directory for annotated images
     output_dir = "batch_results"

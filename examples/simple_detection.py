@@ -5,10 +5,11 @@ This script demonstrates basic usage of the WineBottleDetector class
 to detect and count wine bottles in a single image.
 
 Usage:
-    python simple_detection.py <image_path> [--no-vases] [--conf THRESHOLD] [--no-output]
+    python simple_detection.py <image_path> [--model MODEL] [--no-vases] [--conf THRESHOLD] [--no-output]
 
 Arguments:
     image_path: Path to the image file (optional, will prompt if not provided)
+    --model MODEL: YOLO model to use (n/s/m/l/x, default: n for nano)
     --no-vases: Only count bottles (class 39), exclude vases (class 75)
     --conf THRESHOLD: Confidence threshold (0-1, default: 0.25)
     --no-output: Don't save annotated output image
@@ -16,7 +17,7 @@ Arguments:
 Examples:
     python simple_detection.py sample_images/wine_bottle.jpeg
     python simple_detection.py sample_images/one_wine.jpg --no-vases
-    python simple_detection.py sample_images/one_wine.jpg --no-vases --conf 0.20
+    python simple_detection.py sample_images/shelf_horizontal_close.jpg --model m --conf 0.20
     python simple_detection.py sample_images/wine_bottle.jpeg --no-output
 """
 
@@ -42,6 +43,20 @@ def main():
             print("No image path provided. Using sample path...")
             image_path = "../sample_images/wine_bottles.jpg"
 
+    # Check for --model flag
+    model_size = 'n'  # default: nano
+    if '--model' in sys.argv:
+        try:
+            model_index = sys.argv.index('--model')
+            if model_index + 1 < len(sys.argv):
+                model_size = sys.argv[model_index + 1].lower()
+                if model_size not in ['n', 's', 'm', 'l', 'x']:
+                    print("Error: Model must be one of: n (nano), s (small), m (medium), l (large), x (extra-large)")
+                    return 1
+        except (ValueError, IndexError):
+            print("Error: Invalid model size. Use: --model n/s/m/l/x")
+            return 1
+
     # Check for --no-vases flag
     include_vases = True
     if '--no-vases' in sys.argv:
@@ -66,17 +81,29 @@ def main():
             print("Error: Invalid confidence threshold. Use: --conf 0.25")
             return 1
 
+    # Model mapping
+    model_names = {
+        'n': 'yolo26n.pt',  # Nano - fastest, smallest
+        's': 'yolo26s.pt',  # Small - balanced
+        'm': 'yolo26m.pt',  # Medium - better accuracy
+        'l': 'yolo26l.pt',  # Large - high accuracy
+        'x': 'yolo26x.pt',  # Extra-large - best accuracy
+    }
+    model_name = model_names[model_size]
+
     print(f"\nDetecting bottles in: {image_path}")
     print("=" * 50)
 
-    # Initialize detector with YOLO26 nano model (latest, fastest)
-    print("Loading YOLO model...")
+    # Initialize detector with selected YOLO26 model
+    print(f"Loading YOLO model ({model_name})...")
     detector = WineBottleDetector(
-        model_name='yolo26n.pt',
+        model_name=model_name,
         confidence_threshold=confidence_threshold,
         include_vases=include_vases
     )
 
+    if model_size != 'n':
+        print(f"Note: Using YOLO26{model_size.upper()} model for better accuracy")
     if not include_vases:
         print("Note: Vases are excluded (only counting class 39 'bottle')")
     if confidence_threshold != 0.25:
