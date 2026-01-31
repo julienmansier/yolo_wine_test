@@ -32,14 +32,29 @@ pip install -r requirements.txt
 Detect bottles in a single image and view the results:
 
 ```bash
-cd examples
-python simple_detection.py
+# Basic usage with nano model (fast, good for simple scenes)
+python examples/simple_detection.py path/to/image.jpg
+
+# Use medium model for better accuracy (recommended for dense/crowded scenes)
+python examples/simple_detection.py path/to/image.jpg --model m
+
+# Combine with other options
+python examples/simple_detection.py path/to/shelf.jpg --model m --conf 0.20
+
+# Available models: n (nano), s (small), m (medium), l (large), x (extra-large)
 ```
 
-You'll be prompted to enter an image path. The script will:
+**Model Selection Guide:**
+- `--model n` (nano): Fastest, best for 1-5 bottles, simple scenes
+- `--model s` (small): Balanced speed/accuracy
+- `--model m` (medium): **Recommended for shelves** - 50%+ more bottles detected
+- `--model l` (large): High accuracy, slower
+- `--model x` (extra-large): Best accuracy, slowest
+
+The script will:
 - Load the YOLO model
 - Detect wine bottles
-- Display the annotated image
+- Display detection details
 - Save results to `output_detection.jpg`
 
 ### 2. Batch Processing (Multiple Images)
@@ -47,8 +62,11 @@ You'll be prompted to enter an image path. The script will:
 Process an entire folder of images:
 
 ```bash
-cd examples
-python batch_processing.py
+# Basic usage
+python examples/batch_processing.py sample_images/
+
+# Use larger model for better accuracy
+python examples/batch_processing.py sample_images/ --model m --conf 0.20
 ```
 
 This will:
