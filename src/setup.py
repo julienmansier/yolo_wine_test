@@ -4,7 +4,7 @@ Quick setup script for YOLO Wine Bottle Detector.
 This script helps you get started by:
 1. Creating a virtual environment
 2. Installing dependencies
-3. Downloading a sample test image
+3. Downloading a sample test image 
 """
 
 import subprocess
